@@ -1,0 +1,21 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+var _phaser = require('phaser');
+var _phaserDefault = _parcelHelpers.interopDefault(_phaser);
+var _scenesHelloWorldScene = require('./scenes/HelloWorldScene');
+var _scenesHelloWorldSceneDefault = _parcelHelpers.interopDefault(_scenesHelloWorldScene);
+const config = {
+  type: _phaserDefault.default.AUTO,
+  width: 800,
+  height: 600,
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: {
+        y: 200
+      }
+    }
+  },
+  scene: [_scenesHelloWorldSceneDefault.default]
+};
+exports.default = new _phaserDefault.default.Game(config);
