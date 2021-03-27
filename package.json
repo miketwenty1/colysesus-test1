@@ -1,15 +1,14 @@
 {
 	"name": "colysesus-test1",
 	"version": "1.0.0",
-	"description": "A typescript template project for Phaser 3 using Parceljs",
+	"description": "testing with colyseus and phaser",
 	"scripts": {
 		"start": "parcel src/index.html -p 8000",
 		"build": "parcel build src/index.html --out-dir dist",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"lint": "eslint ./src --ext .js,.jsx,.ts,.tsx"
 	},
-	"author": "supertommy",
-	"license": "MIT",
+	"author": "miketwenty1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/miketwenty1/colysesus-test1.git"
@@ -24,7 +23,6 @@
 		"typescript": "^3.8.3"
 	},
 	"dependencies": {
-		"parcel": "^2.0.0-beta.2",
 		"phaser": "^3.50.1"
 	},
 	"parcelCleanPaths": [
