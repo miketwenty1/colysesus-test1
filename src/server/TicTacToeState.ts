@@ -16,7 +16,7 @@ export default class TicTacToeState extends Schema implements ITicTacToeState
     this.board = new ArraySchema(
       0, 0, 0,
       0, 0, 0,
-      0, 0, 0
+      0, 0, 0,
     )
   }
 }

@@ -1,6 +1,6 @@
 import { Client } from 'colyseus.js'
 import Phaser from 'phaser'
-import ITicTacToeState from '~/types/ITicTacToeState'
+import ITicTacToeState from '../../types/ITicTacToeState'
 
 export default class Server
 {
@@ -17,9 +17,8 @@ export default class Server
   async join()
   {
     const room = await this.client.joinOrCreate<ITicTacToeState>('tic-tac-toe')
-    console.log(room.state)
     room.onStateChange.once(state => {
-      this.events.emit('on-state-changed', state)
+      this.events.emit('once-state-changed', state)
     })
   }
 
