@@ -1,8 +1,22 @@
 // automatically handles sending deltas to clients instead of the entire state object
-import { Schema, type } from '@colyseus/schema'
-
-export default class TicTacToeState extends Schema
+import { Schema, ArraySchema, type } from '@colyseus/schema'
+import ITicTacToeState from '../types/ITicTacToeState'
+export default class TicTacToeState extends Schema implements ITicTacToeState
 {
-  @type('string')
-  name = 'ttt-state'
+  @type(['number'])
+  board: ArraySchema<number>
+
+  @type('number')
+  activePlayer = 0
+
+  constructor()
+  {
+    super()
+
+    this.board = new ArraySchema(
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0
+    )
+  }
 }
