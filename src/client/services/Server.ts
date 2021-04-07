@@ -31,6 +31,9 @@ export default class Server
           case 'board':
             // this.events.emit('board-change')
             break
+          case 'activePlayer':
+              this.events.emit('player-turn-changed', value)
+            break
         }
       })
     }
@@ -55,5 +58,10 @@ export default class Server
   onBoardChanged(cb: (cell: number, index: number) => void, context?: any)
   {
     this.events.on('board-changed', cb, context)
+  }
+
+  onPlayerTurnChanged(cb: (playerIndex: number) => void, context?: any)
+  {
+    this.events.on('player-turn-changed', cb, context)
   }
 }

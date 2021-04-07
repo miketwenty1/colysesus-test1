@@ -55,6 +55,7 @@ export default class Game extends Phaser.Scene
       }
     })
     this.server?.onBoardChanged(this.handleBoardChanged, this)
+    this.server?.onPlayerTurnChanged(this.handlePlayerTurnChanged, this)
   }
   private handleBoardChanged(newValue: Cell, idx: number)
   {
@@ -66,5 +67,10 @@ export default class Game extends Phaser.Scene
       // cell.value = board[idx]
     }
     cell.value = newValue
+  }
+
+  private handlePlayerTurnChanged(playerIndex: number)
+  {
+    console.log(playerIndex);
   }
 }
