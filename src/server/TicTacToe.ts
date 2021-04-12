@@ -1,4 +1,4 @@
-import { Room } from 'colyseus'
+import { Client, Room } from 'colyseus'
 import { Dispatcher } from '@colyseus/command'
 import TicTacToeState from './TicTacToeState'
 import { Message } from '../types/messages'
@@ -18,8 +18,10 @@ export default class TicTacToe extends Room<TicTacToeState>
       })
     })
   }
-  // onJoin(client: Client)
-  // {
-  //   this.clients
-  // }
+  onJoin(client: Client)
+  {
+    console.log(this.clients.length)
+    const idx = this.clients.findIndex(c => c.sessionId === client.sessionId)
+    client.send(Message.PlayerIndex, { playerIndex: idx })
+  }
 }

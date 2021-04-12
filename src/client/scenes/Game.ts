@@ -42,6 +42,23 @@ export default class Game extends Phaser.Scene
           // call makeSelection unless it's undefined then don't
           this.server?.makeSelection(idx)
         })
+      // to help show correct state if you join the room while it's already in progress somehow like a browser refresh
+      switch (cellState)
+      {
+        case Cell.X:
+          {
+            this.add.star(cell.x, cell.y, 4, 4, 60, 0x7f2dff)
+              .setAngle(45)
+            break
+          }
+        case Cell.O:
+          {
+            this.add.circle(cell.x, cell.y, 48, 0xff022)
+            this.add.circle(cell.x, cell.y, 44, 0xffffff)
+            break
+          }
+      }
+
       this.cells.push({
         display: cell,
         value: cellState
@@ -62,15 +79,27 @@ export default class Game extends Phaser.Scene
     const cell = this.cells[idx]
     if (cell.value !== newValue)
     {
-      this.add.star(cell.display.x, cell.display.y, 4, 4, 60, 0x7f2dff)
-        .setAngle(45)
-      // cell.value = board[idx]
+      switch (newValue)
+      {
+        case Cell.X:
+          {
+            this.add.star(cell.display.x, cell.display.y, 4, 4, 60, 0x7f2dff)
+              .setAngle(45)
+            break
+          }
+        case Cell.O:
+          {
+            this.add.circle(cell.display.x, cell.display.y, 48, 0xff022)
+            this.add.circle(cell.display.x, cell.display.y, 44, 0xffffff)
+            break
+          }
+      }
     }
     cell.value = newValue
   }
 
   private handlePlayerTurnChanged(playerIndex: number)
   {
-    console.log(playerIndex);
+    // console.log(playerIndex);
   }
 }
