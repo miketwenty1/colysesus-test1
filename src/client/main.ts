@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 
 import Bootstrap from './scenes/Bootstrap'
 import Game from './scenes/Game'
+import GameOver from './scenes/GameOver'
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
@@ -16,6 +17,7 @@ const config: Phaser.Types.Core.GameConfig = {
 	scene: [
     Bootstrap,
     Game,
+    GameOver
   ]
 }
 

@@ -10,6 +10,7 @@ export default class TicTacToe extends Room<TicTacToeState>
 
   onCreate()
   {
+    this.maxClients = 2 // possibly would need to bump this for spectators
     this.setState(new TicTacToeState())
     this.onMessage(Message.PlayerSelection, (client, message: { index: number }) => {
       this.dispatcher.dispatch(new PlayerSelectionCommand(), {

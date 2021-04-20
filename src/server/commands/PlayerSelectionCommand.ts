@@ -1,7 +1,7 @@
 import { Command } from '@colyseus/command'
 import { Client } from 'colyseus'
 import ITicTacToeState, { Cell } from '../../types/ITicTacToeState'
-import NextTurnCommand from './NextTurnCommand'
+import CheckWinnerCommand from './CheckWinnerCommand'
 
 type Payload = {
   client: Client
@@ -22,7 +22,7 @@ export default class PlayerSelectionCommand extends Command<ITicTacToeState, Pay
     this.room.state.board[index] = cellValue
 
     return [
-      new NextTurnCommand()
+      new CheckWinnerCommand()
     ]
   }
 }

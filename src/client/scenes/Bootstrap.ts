@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { IGameOverSceneData } from '../../types/scenes'
 import Server from '../services/Server'
 
 export default class Bootstrap extends Phaser.Scene
@@ -18,7 +19,11 @@ export default class Bootstrap extends Phaser.Scene
   create()
   {
     this.scene.launch('game', {
-      server: this.server
+      server: this.server,
+      onGameOver: (data: IGameOverSceneData) => {
+        this.scene.stop('game')
+        this.scene.launch('game-over', data)
+      }
     })
   }
 }

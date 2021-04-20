@@ -11,7 +11,7 @@ export default class Server
   private room?: Room<ITicTacToeState>
   private _playerIndex = -1
 
-  getPlayerIndex()
+  get playerIndex()
   {
     return this._playerIndex
   }
@@ -53,6 +53,10 @@ export default class Server
           case 'activePlayer':
               this.events.emit('player-turn-changed', value)
             break
+
+          case 'winningPlayer':
+            this.events.emit('player-won', value)
+            break
         }
       })
     }
@@ -87,5 +91,10 @@ export default class Server
   onPlayerTurnChanged(cb: (playerIndex: number) => void, context?: any)
   {
     this.events.on('player-turn-changed', cb, context)
+  }
+
+  onPlayerWon(cb: (playerIndex: number) => void, context?: any)
+  {
+    this.events.on('player-won', cb, context)
   }
 }
