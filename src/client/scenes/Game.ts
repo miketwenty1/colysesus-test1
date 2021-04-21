@@ -74,6 +74,7 @@ export default class Game extends Phaser.Scene
         x = (width * 0.5) - size
       }
     })
+    
     this.server?.onBoardChanged(this.handleBoardChanged, this)
     this.server?.onPlayerTurnChanged(this.handlePlayerTurnChanged, this)
     this.server?.onPlayerWon(this.handlePlayerWon, this)

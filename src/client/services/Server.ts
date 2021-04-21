@@ -1,6 +1,7 @@
 import { Client, Room } from 'colyseus.js'
 import Phaser from 'phaser'
-import ITicTacToeState from '../../types/ITicTacToeState'
+import {ITicTacToeState} from '../../types/ITicTacToeState'
+import { GameState } from '../../types/ITicTacToeState'
 import { Message } from '../../types/messages'
 
 export default class Server
@@ -57,6 +58,9 @@ export default class Server
           case 'winningPlayer':
             this.events.emit('player-won', value)
             break
+          case 'gameState':
+            this.events.emit('game-state-changed', value)
+            break
         }
       })
     }
@@ -65,13 +69,19 @@ export default class Server
     }
   }
 
+  leave()
+  {
+    this.room?.leave()
+    this.events.removeAllListeners()
+  }
+
   makeSelection(idx: number)
   {
     if (!this.room)
     {
       return
     }
-    if (this._playerIndex !== this.room.state.activePlayer) 
+    if (this._playerIndex !== this.room.state.activePlayer)
     {
       console.warn('not this player\'s turn')
       return
@@ -96,5 +106,13 @@ export default class Server
   onPlayerWon(cb: (playerIndex: number) => void, context?: any)
   {
     this.events.on('player-won', cb, context)
+
+    return () => {
+      this.events.off('player-won', cb, context)
+    }
+  }
+  onGameStateChanged(cb: (state: GameState) => void, context?: any)
+  {
+    this.events.on('game-state-changed', cb, context)
   }
 }
