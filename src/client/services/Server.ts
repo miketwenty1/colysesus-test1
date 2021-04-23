@@ -16,6 +16,16 @@ export default class Server
   {
     return this._playerIndex
   }
+
+  get gameState()
+  {
+    if(!this.room)
+    {
+      return GameState.WaitingForPlayers
+    }
+    return this.room?.state.gameState
+  }
+
   constructor()
   {
     this.client = new Client('ws://localhost:2567')
@@ -29,15 +39,6 @@ export default class Server
     this.room.onMessage(Message.PlayerIndex, (message: { playerIndex: number }) => {
       this._playerIndex = message.playerIndex
     })
-
-    // this.room.onMessage('*', (type, message) => {
-    //   switch (type)
-    //   {
-    //     case Message.PlayerIndex:
-    //       this._playerIndex = message.playerIndex
-    //       break
-    //   }
-    // })
 
     this.room.onStateChange.once(state => {
       this.events.emit('once-state-changed', state)
@@ -81,6 +82,12 @@ export default class Server
     {
       return
     }
+
+    if(this.room.state.gameState !== GameState.Playing)
+    {
+      return
+    }
+
     if (this._playerIndex !== this.room.state.activePlayer)
     {
       console.warn('not this player\'s turn')
