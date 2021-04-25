@@ -29,6 +29,7 @@ export default class TicTacToe extends Room<TicTacToeState>
     if (this.clients.length >= 2)
     {
       this.state.gameState = GameState.Playing
+      this.lock()
     }
   }
 }

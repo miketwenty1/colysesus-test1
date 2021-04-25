@@ -15,6 +15,10 @@ export default class Game extends Phaser.Scene
     super('game')
   }
 
+  init()
+  {
+    this.cells = []
+  }
   async create(data: IGameSceneData)
   {
     const { server, onGameOver } = data
