@@ -1,7 +1,6 @@
 import { Client, Room } from 'colyseus.js'
 import Phaser from 'phaser'
-import {ITicTacToeState} from '../../types/ITicTacToeState'
-import { GameState } from '../../types/ITicTacToeState'
+import ITicTacToeState, { GameState }  from '../../types/ITicTacToeState'
 import { Message } from '../../types/messages'
 
 export default class Server
@@ -45,8 +44,10 @@ export default class Server
     })
 
     this.room.state.onChange = (changes) => {
+      // console.log(changes)
       changes.forEach(change => {
         const { field, value } = change
+        // console.log(`${field} field, ${value}`)
         switch (field)
         {
           // case 'board':
@@ -55,9 +56,8 @@ export default class Server
           case 'activePlayer':
               this.events.emit('player-turn-changed', value)
             break
-
           case 'winningPlayer':
-            this.events.emit('player-won', value)
+            this.events.emit('player-win', value)
             break
           case 'gameState':
             this.events.emit('game-state-changed', value)
@@ -83,7 +83,7 @@ export default class Server
       return
     }
 
-    if(this.room.state.gameState !== GameState.Playing)
+    if (this.room.state.gameState !== GameState.Playing)
     {
       return
     }
@@ -99,7 +99,6 @@ export default class Server
   {
     this.events.once('once-state-changed', cb, context)
   }
-
   onBoardChanged(cb: (cell: number, index: number) => void, context?: any)
   {
     this.events.on('board-changed', cb, context)
@@ -112,11 +111,7 @@ export default class Server
 
   onPlayerWon(cb: (playerIndex: number) => void, context?: any)
   {
-    this.events.on('player-won', cb, context)
-
-    return () => {
-      this.events.off('player-won', cb, context)
-    }
+    this.events.on('player-win', cb, context)
   }
   onGameStateChanged(cb: (state: GameState) => void, context?: any)
   {

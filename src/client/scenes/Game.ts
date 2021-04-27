@@ -1,14 +1,14 @@
 import Phaser from 'phaser'
 import { IGameOverSceneData, IGameSceneData } from '../../types/scenes'
-import ITicTacToeState, { Cell } from '../../types/ITicTacToeState'
+import ITicTacToeState, { Cell, GameState} from '../../types/ITicTacToeState'
 import type Server from '../services/Server'
-import { GameState } from '../../types/ITicTacToeState'
 
 export default class Game extends Phaser.Scene
 {
   private server?: Server
   private onGameOver?: (data: IGameOverSceneData) => void
   private gameStateText?: Phaser.GameObjects.Text
+  private gamePlayerTurnText?: Phaser.GameObjects.Text
   private cells: { display: Phaser.GameObjects.Rectangle, value: Cell }[] = []
   constructor()
   {
@@ -33,7 +33,6 @@ export default class Game extends Phaser.Scene
     //   console.log(state)
     // })
     this.server.onceStateChanged(this.createBoard, this)
-    // this.server.onceStateChanged(this.handleBoardChanged, this)
   }
 
   private createBoard(state: ITicTacToeState)
@@ -86,6 +85,20 @@ export default class Game extends Phaser.Scene
       const width = this.scale.width
       this.gameStateText = this.add.text(width * 0.5, 50, 'Waiting for opponent...')
         .setOrigin(0.5)
+      this.gamePlayerTurnText = undefined
+    }
+    if (this.gamePlayerTurnText === undefined && this.server?.gameState !== GameState.WaitingForPlayers)
+    {
+      // if (this.server?.playerIndex === playerIndex)
+      // {
+      //   this.gamePlayerTurnText = this.add.text(width * 0.5, 50, 'Your Turn')
+      //     .setOrigin(0.5)
+      // }
+      // else
+      // {
+      //   this.gamePlayerTurnText = this.add.text(width * 0.5, 50, 'Your Opponent\'s Turn')
+      //     .setOrigin(0.5)
+      // }
     }
 
     this.server?.onBoardChanged(this.handleBoardChanged, this)
@@ -119,12 +132,24 @@ export default class Game extends Phaser.Scene
 
   private handlePlayerTurnChanged(playerIndex: number)
   {
-    // console.log(playerIndex);
+    console.log(this.server?.playerIndex)
+    this.gamePlayerTurnText?.destroy()
+    const width = this.scale.width
+    if (this.server?.playerIndex === playerIndex)
+    {
+      this.gamePlayerTurnText = this.add.text(width * 0.5, 50, 'Your Turn')
+        .setOrigin(0.5)
+    }
+    else
+    {
+      this.gamePlayerTurnText = this.add.text(width * 0.5, 50, 'Your Opponent\'s Turn')
+        .setOrigin(0.5)
+    }
   }
 
   private handlePlayerWon(playerIndex: number)
   {
-    this.time.delayedCall(1000, () => {
+    this.time.delayedCall(600, () => {
       if (!this.onGameOver)
       {
         return
